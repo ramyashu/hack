@@ -1,0 +1,33 @@
+clc;
+clear;
+close all;
+%part a
+input=imread('moonfor2.jpg');
+input=double(input);
+[m,n]=size(input);
+w1=[1 1 1 1 1 1 1;1 1 1 1 1 1 1;
+    1 1 1 1 1 1 1;1 1 1 1 1 1 1;
+    1 1 1 1 1 1 1;1 1 1 1 1 1 1;
+    1 1 1 1 1 1 1];
+w1=w1.*(1/49);
+boxoutput=conv2(input,w1,'same');
+imshow(imread('moonfor2.jpg'));
+figure;
+%imshow(uint8(boxoutput));
+mask=input-boxoutput;
+%figure;
+%imshow(uint8(mask));
+unsharpmask=input+mask;
+%figure;
+imshow(uint8(unsharpmask),[]);
+
+%part c
+imp=zeros(7,7);
+imp(4,4)=1;
+w=2*imp-w1;
+unsharpmask1=conv2(input,w,'same');
+figure;
+imshow(uint8(unsharpmask1),[]);
+
+%images in part a and c are exactly the same since the operation performed
+%were addition and convolution, their order doesn't matter.
