@@ -1,0 +1,42 @@
+close all;
+clear;
+clc;
+input=imread('moonfor2.tif');
+input=double(input);
+%subplot(2,1,1);
+for i=0:255
+    h(i+1)=sum(sum(input==i));
+end
+[m,n]=size(input);
+total=sum(h);
+for i=0:255
+    b=mod(i,2);
+    if b==1
+      ho(i+1)=h(i);  
+    else
+        ho(i+1)=0;
+    end
+end
+total1=sum(ho);
+for i=0:255
+    Trin(i+1)=uint8(sum(h(1:i))/total*255);
+    Trout(i+1)=uint8(sum(ho(1:i))/total1*255);
+end
+[uniqvalues] = unique(input);
+matchedoutput= input; 
+for i=1:numel(uniqvalues)
+    diffpix= abs(double(Trin(uniqvalues(i)+1))-double(Trout)); 
+    [~,ind]=min(diffpix); 
+    val= ind-1; 
+    I=find(input==uniqvalues(i));
+    matchedoutput(I)=val;
+end
+imshow(imread('moonfor2.tif'));
+figure;
+imshow(uint8(matchedoutput));
+figure;
+subplot(2,1,1);
+n=0:numel(h)-1;
+imhist(imread('moonfor2.tif'));
+subplot(2,1,2);
+imhist(uint8(matchedoutput));
