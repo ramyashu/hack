@@ -1,0 +1,56 @@
+package GFG1;
+import java.io.*;
+import java.util.*;
+public class MaxPalindrome {
+	public static  void main(String args[]) throws IOException{
+		BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+	    BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(System.out));
+	    int t=Integer.parseInt(reader.readLine().trim());
+	    for(int i=0;i<t;i++) {
+	    	String inpa=reader.readLine().trim();
+	    	int n=inpa.length();
+	    	int maxlength=1;
+	    	int start =0;
+	    	int upd=0;
+	    	boolean[][] store=new boolean[n][n];
+	    	for(int i1=0;i1<n;i1++) {
+	    		store[i1][i1]=true;
+	    	}
+	    	for(int j=0;j<n-1;j++) {
+	    		
+	    		if(inpa.charAt(j)==inpa.charAt(j+1)) {
+	    			//System.out.println("hi");
+	    			store[j][j+1]=true;
+	    			maxlength=2;
+	    			
+	    			if(upd==0) {
+	    				start=j;
+	    			}
+	    			//aaabbbcccbbbaaa
+	    			upd=1;
+	    		}
+	    	}
+	    	
+	    	for(int len=3;len<=n;len++) {
+	    		for(int j=0;j<n-len+1;j++) {
+	    			int end=j+len-1;
+	    			if(store[j+1][end-1] && inpa.charAt(j)==inpa.charAt(end)) {
+	    				store[j][end]=true;
+	    				if(len>maxlength) {
+	    					maxlength=len;
+	    					//System.out.println(start);
+	    					start=j;
+	    				}
+	    			}
+	    		}
+	    	}
+	    	System.out.println(maxlength);
+	    	int answer=n-maxlength;
+	    	
+	    	writer.write(answer+"\n");
+	    	writer.write(inpa.substring(start,start+maxlength));
+	    	
+    	}
+	    writer.close();
+	}
+}
