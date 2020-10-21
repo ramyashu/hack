@@ -1,0 +1,161 @@
+package leetcode;
+
+import java.io.*;
+import java.util.*;
+
+
+
+// Warning: Printing unwanted or ill-formatted data to output will cause the test cases to fail
+
+public class Solution {
+    public static void main(String[] args) throws Exception{
+    	Scanner sc=new Scanner(System.in);
+    	/*solution1 s=new solution1();
+    	
+    	s.main(arf);*/
+    	int k11=10;int k1=12;
+    	double f=((double)(k11+k1)/3);
+    	System.out.println(f);
+    	String arf[]= {"a","g"};
+    	driver d=new driver();
+    	d.main(arf);
+    	int t=sc.nextInt();
+    	for(int i=0;i<t;i++) {
+    		int n=sc.nextInt();int k=sc.nextInt();
+    		int[] arr=new int[n];
+    		int count=1;
+    		for(int j=0;j<n;j++) {
+    			arr[j]=sc.nextInt();
+    		}
+    		if(k==0) {
+    			System.out.println(1);
+    			continue;
+    		}
+    		Arrays.sort(arr);
+    		if(arr[0]==arr[k-1] && k-1!=0) {
+    			for(int j=k-1;j<n-1;j++) {
+        			if(arr[j]==arr[j+1]) count++;
+        			else {
+        				break;
+        			}
+        		}
+    			count=(count*(count+1)/2);
+    			System.out.println(count);
+    		}
+    		else {
+    		for(int j=k-1;j<n-1;j++) {
+    			if(arr[j]==arr[j+1]) count++;
+    			else {
+    				break;
+    			}
+    		}
+    		System.out.println(count);
+    		}
+    	}
+    }
+}
+class solution1{
+	public static void main(String args[]) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println(fib(50));
+		int t=sc.nextInt();
+	}
+	static long fib(long n) { 
+		double phi = (1 + Math.sqrt(5)) / 2; 
+		return (long) Math.round(Math.pow(phi, n)  
+		                        / Math.sqrt(5)); 
+		} 
+}
+class DetectCycle
+{
+    int[] arr;
+    int count=0;
+    static boolean isCyclic(ArrayList<ArrayList<Integer>> list, int V)
+    {
+      DetectCycle c=new DetectCycle();
+      c.arr=new int[V];
+      Arrays.fill(c.arr, 0);
+      c.dfs(list, V);
+      if(c.count==1) return true;
+      else return false;
+    }
+    void dfs(ArrayList<ArrayList<Integer>> list, int V){
+    	for(int i=0;i<V;i++) {
+    		if(arr[i]==0) {
+    			dfsvisit(list, i,-1);	
+    		}
+    	}
+    }
+    void dfsvisit(ArrayList<ArrayList<Integer>> list, int V,int parent){
+        ArrayList<Integer> k=list.get(V);
+        arr[V]=1;
+        Iterator it=k.iterator();
+        int pk=0;
+        while(it.hasNext()){
+        	int p=(int)it.next();
+        	//System.out.println(p);
+            if(arr[p]==0){
+                arr[p]=1;
+                dfsvisit(list,p,V);
+            }
+            else if(arr[p]==1 && p!=parent) {
+            	//if(count==0) System.out.println(p);
+            	count=1;
+            }
+            if(p==parent) pk++;
+            if(pk==2) count=1;
+        }
+        arr[V]=2;
+        //System.out.println(count);
+    }
+    void print(int[] arr) {
+    	for(int i:arr) {
+    		System.out.print(" "+i+" ");
+    	}
+    }
+}
+class driver{
+public static void main (String[] args) throws IOException{
+    BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(System.out));
+    String[] inp=reader.readLine().trim().split("\\s+");
+    int n=Integer.parseInt(inp[0]);int m=Integer.parseInt(inp[1]);
+    int[] arr=new int[n];
+    int[] size=new int[n];Arrays.fill(size,1);
+    Arrays.fill(arr, -1);
+    for(int i=0;i<m;i++) {
+    	String[] inpa=reader.readLine().trim().split("\\s+");
+    	int root=find(Integer.parseInt(inpa[0])-1,arr);
+    	int root1=find(Integer.parseInt(inpa[1])-1,arr);
+    	if(root!=root1) {
+    		union(arr,size,root,root1);
+    	}
+    	print(size);
+    }
+    
+  }
+	static void print(int[] arr) {
+		int[] p=new int[arr.length];
+		for(int i=0;i<p.length;i++) {
+			p[i]=arr[i];
+		}
+		Arrays.sort(p);
+		for(int k:p) {
+			if(k!=0) {
+				System.out.print(k+" ");
+			}
+		}
+		System.out.println();
+	}
+	static int find(int root,int[] arr) {
+		if(arr[root]<0) return root;
+		else return find(arr[root],arr);
+	}
+	static void union(int[] arr,int[] size,int root1,int root2) {
+		arr[root1]=root2;
+		size[root2]+=size[root1];
+		size[root1]=0;
+	}
+}
+
+
